@@ -27,7 +27,8 @@ type Video = {
 };
 type Note = {
   id: string;
-  caption: string | null;
+  student_name: string;
+  location: string;
   image_url: string;
   created_at: string;
 };
