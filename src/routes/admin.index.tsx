@@ -2,7 +2,8 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Upload, Video, Image as ImageIcon, LogOut, Trash2, MapPin } from "lucide-react";
+import { Upload, Video, Image as ImageIcon, LogOut, Trash2, MapPin, Pencil, Save } from "lucide-react";
+import { DEFAULT_CONTENT } from "@/hooks/useSiteContent";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -88,6 +89,10 @@ function AdminDashboard() {
       <section className="mx-auto max-w-6xl grid gap-6 lg:grid-cols-2 pb-12">
         <UploadVideoCard onDone={refresh} />
         <UploadNoteCard onDone={refresh} />
+      </section>
+
+      <section className="mx-auto max-w-6xl pb-12">
+        <EditContentCard />
       </section>
 
       <section className="mx-auto max-w-6xl pb-24 space-y-12">
@@ -376,5 +381,109 @@ function ManagementList({
         </div>
       )}
     </div>
+  );
+}
+
+/* ---------- Edit Content ---------- */
+
+const CONTENT_FIELDS: Array<{ key: keyof typeof DEFAULT_CONTENT; label: string; multiline?: boolean }> = [
+  { key: "home_hero_eyebrow", label: "Home — Hero badge" },
+  { key: "home_hero_title", label: "Home — Hero title" },
+  { key: "home_hero_subtitle", label: "Home — Hero subtitle", multiline: true },
+  { key: "home_videos_eyebrow", label: "Home — Videos eyebrow" },
+  { key: "home_videos_title", label: "Home — Videos heading" },
+  { key: "home_videos_subtitle", label: "Home — Videos subtitle", multiline: true },
+  { key: "home_notes_eyebrow", label: "Home — Notes eyebrow" },
+  { key: "home_notes_title", label: "Home — Notes heading" },
+  { key: "home_notes_subtitle", label: "Home — Notes subtitle", multiline: true },
+  { key: "about_eyebrow", label: "About — Badge" },
+  { key: "about_title", label: "About — Title" },
+  { key: "about_body", label: "About — Body", multiline: true },
+  { key: "about_signature", label: "About — Signature" },
+  { key: "footer_tagline", label: "Footer tagline" },
+];
+
+function EditContentCard() {
+  const [values, setValues] = useState<Record<string, string>>({ ...DEFAULT_CONTENT });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from("site_content")
+      .select("key,value")
+      .then(({ data }) => {
+        const next: Record<string, string> = { ...DEFAULT_CONTENT };
+        for (const row of (data as { key: string; value: string }[]) ?? []) {
+          next[row.key] = row.value;
+        }
+        setValues(next);
+        setLoading(false);
+      });
+  }, []);
+
+  async function save(e: FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const rows = CONTENT_FIELDS.map(({ key }) => ({ key: key as string, value: values[key] ?? "" }));
+      const { error } = await supabase.from("site_content").upsert(rows, { onConflict: "key" });
+      if (error) throw error;
+      toast.success("Content saved ✨");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Save failed");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <form onSubmit={save} className="glass-strong rounded-3xl p-6 sm:p-8 space-y-5">
+      <div className="flex items-center gap-3">
+        <span className="grid place-items-center w-10 h-10 rounded-xl bg-gradient-hero text-white">
+          <Pencil className="w-5 h-5" />
+        </span>
+        <div>
+          <h2 className="text-xl font-semibold">Edit website content</h2>
+          <p className="text-sm text-muted-foreground">All headings & paragraphs across Home, About and Footer.</p>
+        </div>
+      </div>
+
+      {loading ? (
+        <p className="text-sm text-muted-foreground">Loading…</p>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {CONTENT_FIELDS.map((f) => (
+            <label key={f.key as string} className={f.multiline ? "block sm:col-span-2" : "block"}>
+              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                {f.label}
+              </span>
+              {f.multiline ? (
+                <textarea
+                  value={values[f.key] ?? ""}
+                  onChange={(e) => setValues((v) => ({ ...v, [f.key]: e.target.value }))}
+                  rows={5}
+                  className="mt-1.5 w-full rounded-2xl border border-border bg-white/70 px-4 py-3 outline-none focus:ring-2 focus:ring-ring transition resize-y"
+                />
+              ) : (
+                <input
+                  value={values[f.key] ?? ""}
+                  onChange={(e) => setValues((v) => ({ ...v, [f.key]: e.target.value }))}
+                  className="mt-1.5 w-full rounded-2xl border border-border bg-white/70 px-4 py-3 outline-none focus:ring-2 focus:ring-ring transition"
+                />
+              )}
+            </label>
+          ))}
+        </div>
+      )}
+
+      <button
+        disabled={saving || loading}
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-hero text-white font-medium px-6 py-3 shadow-lg hover:opacity-95 disabled:opacity-60 transition"
+      >
+        <Save className="w-4 h-4" />
+        {saving ? "Saving…" : "Save changes"}
+      </button>
+    </form>
   );
 }
