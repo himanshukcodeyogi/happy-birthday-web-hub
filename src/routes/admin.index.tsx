@@ -8,10 +8,6 @@ export const Route = createFileRoute("/admin/")({
   head: () => ({
     meta: [{ title: "Admin Dashboard — Tribute" }],
   }),
-  beforeLoad: async () => {
-    const { data } = await supabase.auth.getSession();
-    if (!data.session) throw redirect({ to: "/admin/login" });
-  },
   component: AdminDashboard,
 });
 
