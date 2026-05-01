@@ -14,7 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      tribute_notes: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          image_url: string
+          storage_path: string | null
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_url: string
+          storage_path?: string | null
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string
+          storage_path?: string | null
+        }
+        Relationships: []
+      }
+      tribute_videos: {
+        Row: {
+          created_at: string
+          id: string
+          location: string
+          storage_path: string | null
+          student_name: string
+          video_url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          location: string
+          storage_path?: string | null
+          student_name: string
+          video_url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          location?: string
+          storage_path?: string | null
+          student_name?: string
+          video_url?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
