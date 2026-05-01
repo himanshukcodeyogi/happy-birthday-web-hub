@@ -319,7 +319,7 @@ function ManagementList({
     title: string;
     sub: string;
     preview: React.ReactNode;
-    onDelete: () => Promise<void> | void;
+    onDelete: () => Promise<unknown> | unknown;
   }>;
 }) {
   return (
