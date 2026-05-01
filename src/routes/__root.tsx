@@ -45,6 +45,13 @@ export const Route = createRootRoute({
         content: "Thank you videos and handwritten notes from CodeYogi students.",
       },
       { property: "og:type", content: "website" },
+      { name: "twitter:title", content: "Happy Birthday Sir 🎉 — A Tribute from CodeYogi" },
+      { name: "description", content: "A modern, premium web app for a birthday tribute, showcasing student videos and notes." },
+      { property: "og:description", content: "A modern, premium web app for a birthday tribute, showcasing student videos and notes." },
+      { name: "twitter:description", content: "A modern, premium web app for a birthday tribute, showcasing student videos and notes." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e0554262-0f6c-4935-8c0d-7d2f115e37c4/id-preview-61bfa353--9f0ee4df-cca9-4dea-836e-22b6a78ac638.lovable.app-1777650079471.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e0554262-0f6c-4935-8c0d-7d2f115e37c4/id-preview-61bfa353--9f0ee4df-cca9-4dea-836e-22b6a78ac638.lovable.app-1777650079471.png" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
