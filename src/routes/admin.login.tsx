@@ -24,6 +24,12 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) navigate({ to: "/admin" });
+    });
+  }, [navigate]);
+
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (loading) return;
