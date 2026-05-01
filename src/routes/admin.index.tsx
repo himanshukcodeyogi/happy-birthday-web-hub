@@ -15,7 +15,7 @@ const MAX_VIDEO_MB = 80;
 const MAX_IMAGE_MB = 10;
 
 type Video = { id: string; student_name: string; location: string; video_url: string; storage_path: string | null };
-type Note = { id: string; caption: string | null; image_url: string; storage_path: string | null };
+type Note = { id: string; student_name: string; location: string; image_url: string; storage_path: string | null };
 
 function AdminDashboard() {
   const navigate = useNavigate();
