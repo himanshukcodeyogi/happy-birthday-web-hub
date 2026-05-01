@@ -27,7 +27,8 @@ type Video = {
 };
 type Note = {
   id: string;
-  caption: string | null;
+  student_name: string;
+  location: string;
   image_url: string;
   created_at: string;
 };
@@ -171,10 +172,14 @@ function HomePage() {
                 className="reveal hover-lift glass rounded-3xl overflow-hidden mb-6 break-inside-avoid"
                 style={{ transitionDelay: `${(i % 6) * 60}ms` }}
               >
-                <img src={n.image_url} alt={n.caption ?? "Handwritten note"} className="w-full h-auto block" />
-                {n.caption && (
-                  <figcaption className="p-4 text-sm text-white/80">{n.caption}</figcaption>
-                )}
+                <img src={n.image_url} alt={`Note from ${n.student_name}`} className="w-full h-auto block" />
+                <figcaption className="p-4 text-white">
+                  <p className="font-semibold">{n.student_name}</p>
+                  <p className="mt-0.5 flex items-center gap-1.5 text-sm text-white/70">
+                    <MapPin className="w-3.5 h-3.5" />
+                    {n.location}
+                  </p>
+                </figcaption>
               </figure>
             ))}
           </div>
