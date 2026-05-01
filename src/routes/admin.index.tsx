@@ -91,6 +91,10 @@ function AdminDashboard() {
         <UploadNoteCard onDone={refresh} />
       </section>
 
+      <section className="mx-auto max-w-6xl pb-12">
+        <EditContentCard />
+      </section>
+
       <section className="mx-auto max-w-6xl pb-24 space-y-12">
         <ManagementList
           title="Videos"
