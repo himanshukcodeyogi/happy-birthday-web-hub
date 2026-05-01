@@ -21,6 +21,7 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const [videos, setVideos] = useState<Video[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
+  const [authChecked, setAuthChecked] = useState(false);
 
   async function refresh() {
     const [v, n] = await Promise.all([
@@ -32,8 +33,20 @@ function AdminDashboard() {
   }
 
   useEffect(() => {
-    refresh();
-  }, []);
+    let mounted = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
+      if (!data.session) {
+        navigate({ to: "/admin/login" });
+        return;
+      }
+      setAuthChecked(true);
+      refresh();
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [navigate]);
 
   async function logout() {
     await supabase.auth.signOut();
