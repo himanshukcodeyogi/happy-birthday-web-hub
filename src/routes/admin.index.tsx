@@ -2,7 +2,8 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Upload, Video, Image as ImageIcon, LogOut, Trash2, MapPin } from "lucide-react";
+import { Upload, Video, Image as ImageIcon, LogOut, Trash2, MapPin, Pencil, Save } from "lucide-react";
+import { DEFAULT_CONTENT } from "@/hooks/useSiteContent";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
