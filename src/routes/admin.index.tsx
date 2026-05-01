@@ -113,8 +113,8 @@ function AdminDashboard() {
           empty="No notes uploaded yet."
           items={notes.map((n) => ({
             id: n.id,
-            title: n.caption ?? "Handwritten note",
-            sub: "",
+            title: n.student_name,
+            sub: n.location,
             preview: <img src={n.image_url} alt="" className="w-full h-full object-cover" />,
             onDelete: async () => {
               if (n.storage_path) await supabase.storage.from("tributes").remove([n.storage_path]);
