@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useReveal } from "@/hooks/useReveal";
+import { useSiteContent, DEFAULT_CONTENT } from "@/hooks/useSiteContent";
 import { Sparkles, MapPin, PlayCircle, Quote } from "lucide-react";
+import skPhoto from "@/assets/sk-chaudhary.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,6 +39,7 @@ function HomePage() {
   const [videos, setVideos] = useState<Video[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
+  const c = useSiteContent(DEFAULT_CONTENT);
 
   useReveal();
 
