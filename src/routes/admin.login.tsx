@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Lock, User, LogIn } from "lucide-react";
@@ -11,10 +11,6 @@ export const Route = createFileRoute("/admin/login")({
       { name: "description", content: "Secure admin access for managing tribute uploads." },
     ],
   }),
-  beforeLoad: async () => {
-    const { data } = await supabase.auth.getSession();
-    if (data.session) throw redirect({ to: "/admin" });
-  },
   component: LoginPage,
 });
 
@@ -27,6 +23,12 @@ function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) navigate({ to: "/admin" });
+    });
+  }, [navigate]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();

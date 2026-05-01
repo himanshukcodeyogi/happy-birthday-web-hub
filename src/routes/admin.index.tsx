@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -8,10 +8,6 @@ export const Route = createFileRoute("/admin/")({
   head: () => ({
     meta: [{ title: "Admin Dashboard — Tribute" }],
   }),
-  beforeLoad: async () => {
-    const { data } = await supabase.auth.getSession();
-    if (!data.session) throw redirect({ to: "/admin/login" });
-  },
   component: AdminDashboard,
 });
 
@@ -25,6 +21,7 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const [videos, setVideos] = useState<Video[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
+  const [authChecked, setAuthChecked] = useState(false);
 
   async function refresh() {
     const [v, n] = await Promise.all([
@@ -36,13 +33,33 @@ function AdminDashboard() {
   }
 
   useEffect(() => {
-    refresh();
-  }, []);
+    let mounted = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
+      if (!data.session) {
+        navigate({ to: "/admin/login" });
+        return;
+      }
+      setAuthChecked(true);
+      refresh();
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [navigate]);
 
   async function logout() {
     await supabase.auth.signOut();
     toast.success("Signed out");
     navigate({ to: "/admin/login" });
+  }
+
+  if (!authChecked) {
+    return (
+      <div className="min-h-[60vh] grid place-items-center text-white/80">
+        <p>Loading dashboard…</p>
+      </div>
+    );
   }
 
   return (
