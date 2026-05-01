@@ -54,6 +54,14 @@ function AdminDashboard() {
     navigate({ to: "/admin/login" });
   }
 
+  if (!authChecked) {
+    return (
+      <div className="min-h-[60vh] grid place-items-center text-white/80">
+        <p>Loading dashboard…</p>
+      </div>
+    );
+  }
+
   return (
     <div className="px-4 sm:px-6">
       <section className="mx-auto max-w-6xl pt-12 pb-8 flex flex-wrap items-center justify-between gap-4">
