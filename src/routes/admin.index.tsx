@@ -201,7 +201,8 @@ function UploadVideoCard({ onDone }: { onDone: () => void }) {
 }
 
 function UploadNoteCard({ onDone }: { onDone: () => void }) {
-  const [caption, setCaption] = useState("");
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -219,13 +220,15 @@ function UploadNoteCard({ onDone }: { onDone: () => void }) {
       if (up.error) throw up.error;
       const { data: pub } = supabase.storage.from("tributes").getPublicUrl(path);
       const ins = await supabase.from("tribute_notes").insert({
-        caption: caption.trim() || null,
+        student_name: name.trim(),
+        location: location.trim(),
         image_url: pub.publicUrl,
         storage_path: path,
       });
       if (ins.error) throw ins.error;
       toast.success("Note uploaded ✨");
-      setCaption("");
+      setName("");
+      setLocation("");
       setFile(null);
       onDone();
     } catch (err) {
@@ -244,7 +247,8 @@ function UploadNoteCard({ onDone }: { onDone: () => void }) {
         <h2 className="text-xl font-semibold">Upload handwritten note</h2>
       </div>
 
-      <Input label="Caption (optional)" value={caption} onChange={setCaption} placeholder="A note from Aarav" />
+      <Input label="Student name" value={name} onChange={setName} required placeholder="Aarav" />
+      <Input label="Location" value={location} onChange={setLocation} required placeholder="Delhi" />
 
       <FilePicker
         label={`Image file (max ${MAX_IMAGE_MB} MB)`}
