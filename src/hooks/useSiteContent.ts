@@ -20,7 +20,7 @@ export function useSiteContent(defaults: ContentMap) {
         setContent(map);
       });
 
-    const ch = supabase.channel("site-content-live");
+    const ch = supabase.channel(`site-content-live-${Math.random().toString(36).slice(2)}`);
     ch.on(
       "postgres_changes",
       { event: "*", schema: "public", table: "site_content" },
