@@ -5,6 +5,7 @@ import { useReveal } from "@/hooks/useReveal";
 import { useSiteContent, DEFAULT_CONTENT } from "@/hooks/useSiteContent";
 import { Sparkles, MapPin, PlayCircle, Quote } from "lucide-react";
 import skPhoto from "@/assets/sk-chaudhary.png";
+import { BirthdayAnimation } from "@/components/BirthdayAnimation";
 
 export const Route = createFileRoute("/")({
   head: () => ({
