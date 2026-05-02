@@ -110,6 +110,8 @@ function HomePage() {
             </div>
           </div>
         </div>
+
+        <BirthdayAnimation />
       </section>
 
       {/* VIDEOS */}
