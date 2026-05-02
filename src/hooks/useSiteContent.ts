@@ -20,26 +20,24 @@ export function useSiteContent(defaults: ContentMap) {
         setContent(map);
       });
 
-    const ch = supabase
-      .channel("site-content-live")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "site_content" },
-        () => {
-          supabase
-            .from("site_content")
-            .select("key,value")
-            .then(({ data }) => {
-              if (!data) return;
-              const map = { ...defaults };
-              for (const row of data as { key: string; value: string }[]) {
-                map[row.key] = row.value;
-              }
-              setContent(map);
-            });
-        },
-      )
-      .subscribe();
+    const ch = supabase.channel("site-content-live");
+    ch.on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "site_content" },
+      () => {
+        supabase
+          .from("site_content")
+          .select("key,value")
+          .then(({ data }) => {
+            if (!data) return;
+            const map = { ...defaults };
+            for (const row of data as { key: string; value: string }[]) {
+              map[row.key] = row.value;
+            }
+            setContent(map);
+          });
+      },
+    ).subscribe();
 
     return () => {
       active = false;
