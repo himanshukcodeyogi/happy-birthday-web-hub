@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
 
 const BALLOON_COLORS = [
@@ -14,11 +15,15 @@ const CONFETTI_COLORS = [
 ];
 
 export function BirthdayAnimation() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const balloons = Array.from({ length: 9 });
   const confetti = Array.from({ length: 26 });
 
   return (
     <div className="relative mx-auto mt-10 h-64 sm:h-80 w-full max-w-3xl overflow-hidden rounded-3xl glass">
+      {mounted && (<>
       {/* Balloons */}
       {balloons.map((_, i) => {
         const left = (i / balloons.length) * 100 + Math.random() * 6;
@@ -61,6 +66,7 @@ export function BirthdayAnimation() {
           />
         );
       })}
+      </>)}
 
       {/* Center wish */}
       <div className="absolute inset-0 grid place-items-center pointer-events-none">
