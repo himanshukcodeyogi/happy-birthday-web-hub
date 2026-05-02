@@ -42,6 +42,12 @@ function HomePage() {
   const [loading, setLoading] = useState(true);
   const [mediaError, setMediaError] = useState("");
   const c = useSiteContent(DEFAULT_CONTENT);
+  const latestMedia = [
+    ...videos.map((item) => ({ ...item, type: "video" as const, url: item.video_url })),
+    ...notes.map((item) => ({ ...item, type: "image" as const, url: item.image_url })),
+  ]
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, 6);
 
   useReveal();
 
@@ -108,6 +114,35 @@ function HomePage() {
         </div>
 
         <BirthdayAnimation />
+
+        {!loading && latestMedia.length > 0 && (
+          <div className="mt-12 text-left">
+            <div className="mb-5 text-center">
+              <p className="text-xs uppercase tracking-[0.25em] text-white/70">Uploaded Wishes</p>
+              <h2 className="mt-2 text-2xl sm:text-3xl font-bold text-white">Latest photos & videos</h2>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {latestMedia.map((item) => (
+                <article key={`${item.type}-${item.id}`} className="glass overflow-hidden rounded-3xl text-white">
+                  <div className="aspect-[4/3] bg-white/10">
+                    {item.type === "video" ? (
+                      <video src={item.url} controls preload="metadata" className="h-full w-full object-cover" />
+                    ) : (
+                      <img src={item.url} alt={`Wish from ${item.student_name}`} className="h-full w-full object-cover" />
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <p className="font-semibold">{item.student_name}</p>
+                    <p className="mt-1 flex items-center gap-1.5 text-sm text-white/75">
+                      <MapPin className="h-3.5 w-3.5" />
+                      {item.location}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* VIDEOS */}
