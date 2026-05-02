@@ -118,6 +118,8 @@ function HomePage() {
           subtitle={c.home_videos_subtitle}
         />
 
+        {mediaError && <p className="mb-6 text-center text-sm text-white/85">{mediaError}</p>}
+
         {loading ? (
           <SkeletonGrid />
         ) : videos.length === 0 ? (
@@ -127,7 +129,7 @@ function HomePage() {
             {videos.map((v, i) => (
               <article
                 key={v.id}
-                className="reveal hover-lift glass rounded-3xl overflow-hidden"
+                className="reveal is-visible hover-lift glass rounded-3xl overflow-hidden"
                 style={{ transitionDelay: `${(i % 6) * 60}ms` }}
               >
                 <div className="aspect-video bg-black/30">
@@ -168,10 +170,15 @@ function HomePage() {
             {notes.map((n, i) => (
               <figure
                 key={n.id}
-                className="reveal hover-lift glass rounded-3xl overflow-hidden mb-6 break-inside-avoid"
+                className="reveal is-visible hover-lift glass rounded-3xl overflow-hidden mb-6 break-inside-avoid"
                 style={{ transitionDelay: `${(i % 6) * 60}ms` }}
               >
-                <img src={n.image_url} alt={`Note from ${n.student_name}`} className="w-full h-auto block" />
+                <img
+                  src={n.image_url}
+                  alt={`Note from ${n.student_name}`}
+                  loading="lazy"
+                  className="w-full min-h-56 h-auto block object-cover bg-white/10"
+                />
                 <figcaption className="p-4 text-white">
                   <p className="font-semibold">{n.student_name}</p>
                   <p className="mt-0.5 flex items-center gap-1.5 text-sm text-white/70">
