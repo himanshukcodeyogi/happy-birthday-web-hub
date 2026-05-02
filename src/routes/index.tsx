@@ -40,39 +40,35 @@ function HomePage() {
   const [videos, setVideos] = useState<Video[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
+  const [mediaError, setMediaError] = useState("");
   const c = useSiteContent(DEFAULT_CONTENT);
 
   useReveal();
 
   useEffect(() => {
     let active = true;
-    (async () => {
+    const loadMedia = async () => {
       const [v, n] = await Promise.all([
-        supabase.from("tribute_videos").select("*").order("created_at", { ascending: false }),
-        supabase.from("tribute_notes").select("*").order("created_at", { ascending: false }),
+        supabase.from("tribute_videos").select("id,student_name,location,video_url,created_at").order("created_at", { ascending: false }),
+        supabase.from("tribute_notes").select("id,student_name,location,image_url,created_at").order("created_at", { ascending: false }),
       ]);
       if (!active) return;
-      setVideos((v.data as Video[]) ?? []);
-      setNotes((n.data as Note[]) ?? []);
+      setVideos(((v.data ?? []) as Video[]).filter((item) => Boolean(item.video_url)));
+      setNotes(((n.data ?? []) as Note[]).filter((item) => Boolean(item.image_url)));
+      setMediaError(v.error || n.error ? "Uploaded media load nahi ho paaya. Page refresh karke try karo." : "");
       setLoading(false);
-    })();
+    };
+
+    loadMedia();
+
+    const refreshMedia = () => {
+      loadMedia();
+    };
 
     const ch = supabase
       .channel("tribute-live")
-      .on("postgres_changes", { event: "*", schema: "public", table: "tribute_videos" }, () => {
-        supabase
-          .from("tribute_videos")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .then(({ data }) => setVideos((data as Video[]) ?? []));
-      })
-      .on("postgres_changes", { event: "*", schema: "public", table: "tribute_notes" }, () => {
-        supabase
-          .from("tribute_notes")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .then(({ data }) => setNotes((data as Note[]) ?? []));
-      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "tribute_videos" }, refreshMedia)
+      .on("postgres_changes", { event: "*", schema: "public", table: "tribute_notes" }, refreshMedia)
       .subscribe();
 
     return () => {
