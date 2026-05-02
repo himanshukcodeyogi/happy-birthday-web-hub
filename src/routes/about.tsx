@@ -34,12 +34,12 @@ function AboutPage() {
       </section>
 
       <section className="mx-auto max-w-3xl pb-16">
-        <article className="animate-fade-up [animation-delay:240ms] glass-strong rounded-3xl p-8 sm:p-12 text-foreground/90 leading-relaxed text-lg whitespace-pre-line">
+        <article className="animate-fade-up [animation-delay:240ms] bg-black/40 backdrop-blur-xl rounded-[2.5rem] p-8 sm:p-12 text-white leading-relaxed text-lg sm:text-xl whitespace-pre-line border border-white/10 shadow-2xl">
           {c.about_body}
         </article>
 
-        <div className="reveal mt-10 text-center text-white/85">
-          <p className="text-sm tracking-wide whitespace-pre-line">{c.about_signature}</p>
+        <div className="reveal mt-12 text-center text-white/70">
+          <p className="text-sm sm:text-base font-medium tracking-wide whitespace-pre-line">{c.about_signature}</p>
         </div>
       </section>
     </div>
