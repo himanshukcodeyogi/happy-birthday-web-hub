@@ -66,6 +66,7 @@ export function BirthdayAnimation() {
           />
         );
       })}
+      </>)}
 
       {/* Center wish */}
       <div className="absolute inset-0 grid place-items-center pointer-events-none">
