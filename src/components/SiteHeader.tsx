@@ -9,7 +9,7 @@ export function SiteHeader() {
           <span className="grid place-items-center w-9 h-9 rounded-full bg-white/15 backdrop-blur">
             <Cake className="w-5 h-5" />
           </span>
-          <span className="hidden sm:inline tracking-tight">Tribute to Sir</span>
+          <span className="hidden sm:inline tracking-tight">SK Chaudhary Sir</span>
         </Link>
         <nav className="flex items-center gap-1 text-sm">
           <NavLink to="/">Home</NavLink>
