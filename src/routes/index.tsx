@@ -164,6 +164,14 @@ const MANUAL_NOTES: Note[] = [
     image_url: "https://i.ibb.co/1GG9JW8h/20260502-171919.jpg",
     student_avatar_url: "https://i.ibb.co/MkX9mMD1/20260502-171840.jpg",
     created_at: new Date().toISOString()
+  },
+  {
+    id: "n13",
+    student_name: "Himanshu Kashyap",
+    location: "CodeYogi Student",
+    image_url: "https://i.ibb.co/zT8Qkr2F/20260502-173409.jpg",
+    student_avatar_url: "https://i.ibb.co/m5h15ZmP/IMG-20260428-WA0003.jpg",
+    created_at: new Date().toISOString()
   }
 ];
 
