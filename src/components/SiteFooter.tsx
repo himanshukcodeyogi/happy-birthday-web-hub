@@ -10,7 +10,7 @@ export function SiteFooter() {
           {c.footer_tagline}
           <Heart className="w-4 h-4 fill-pink-300 text-pink-300" />
         </p>
-        <p className="mt-2 text-xs text-white/60">© {new Date().getFullYear()} • Made with love by Lavish</p>
+        <p className="mt-2 text-xs text-white/60">© {new Date().getFullYear()} • Made with love by Lavish and Himanshu</p>
       </div>
     </footer>
   );

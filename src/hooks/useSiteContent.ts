@@ -1,51 +1,9 @@
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
 
 export type ContentMap = Record<string, string>;
 
 export function useSiteContent(defaults: ContentMap) {
-  const [content, setContent] = useState<ContentMap>(defaults);
-
-  useEffect(() => {
-    let active = true;
-    supabase
-      .from("site_content")
-      .select("key,value")
-      .then(({ data }) => {
-        if (!active || !data) return;
-        const map = { ...defaults };
-        for (const row of data as { key: string; value: string }[]) {
-          map[row.key] = row.value;
-        }
-        setContent(map);
-      });
-
-    const ch = supabase.channel(`site-content-live-${Math.random().toString(36).slice(2)}`);
-    ch.on(
-      "postgres_changes",
-      { event: "*", schema: "public", table: "site_content" },
-      () => {
-        supabase
-          .from("site_content")
-          .select("key,value")
-          .then(({ data }) => {
-            if (!data) return;
-            const map = { ...defaults };
-            for (const row of data as { key: string; value: string }[]) {
-              map[row.key] = row.value;
-            }
-            setContent(map);
-          });
-      },
-    ).subscribe();
-
-    return () => {
-      active = false;
-      supabase.removeChannel(ch);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  const [content] = useState<ContentMap>(defaults);
   return content;
 }
 
@@ -63,6 +21,6 @@ export const DEFAULT_CONTENT: ContentMap = {
   about_eyebrow: "With deepest gratitude",
   about_title: "A note for our Mentor.",
   about_body: "",
-  about_signature: "Made with ♥ by Lavish",
+  about_signature: "Made with ♥ by CodeYogi Students",
   footer_tagline: "A small tribute from CodeYogi Students",
 };

@@ -14,14 +14,13 @@ export function SiteHeader() {
         <nav className="flex items-center gap-1 text-sm">
           <NavLink to="/">Home</NavLink>
           <NavLink to="/about">About</NavLink>
-          <NavLink to="/admin">Admin</NavLink>
         </nav>
       </div>
     </header>
   );
 }
 
-function NavLink({ to, children }: { to: "/" | "/about" | "/admin"; children: React.ReactNode }) {
+function NavLink({ to, children }: { to: "/" | "/about"; children: React.ReactNode }) {
   return (
     <Link
       to={to}

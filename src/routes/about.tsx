@@ -9,7 +9,7 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "A heartfelt birthday message for SK Chaudhary Sir from the CodeYogi family. Made by Lavish.",
+          "A heartfelt birthday message for SK Chaudhary Sir from the CodeYogi family. Made by Lavish and Himanshu.",
       },
       { property: "og:title", content: "About — A Tribute to SK Chaudhary Sir" },
       { property: "og:description", content: "A heartfelt birthday message from the CodeYogi family." },

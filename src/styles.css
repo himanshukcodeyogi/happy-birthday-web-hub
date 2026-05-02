@@ -38,45 +38,39 @@
   --shadow-glass: 0 10px 40px -10px oklch(0.35 0.15 270 / 0.35);
   --shadow-glow: 0 0 60px -10px oklch(0.7 0.2 290 / 0.5);
   --shadow-soft: 0 8px 30px -12px oklch(0.3 0.12 260 / 0.25);
-}
 
-:root {
-  --radius: 1rem;
+  /* Birthday Theme Colors (Vibrant Dark) */
+  --background: oklch(0.15 0.05 280); 
+  --foreground: oklch(0.98 0.01 280);
 
-  /* Page surface (mostly transparent — gradient body shows through) */
-  --background: oklch(1 0 0 / 0);
-  --foreground: oklch(0.18 0.04 270);
+  --card: oklch(1 0 0 / 0.1);
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0.2 0.05 280);
+  --popover-foreground: oklch(1 0 0);
 
-  --card: oklch(1 0 0 / 0.7);
-  --card-foreground: oklch(0.18 0.04 270);
-  --popover: oklch(0.99 0.005 270);
-  --popover-foreground: oklch(0.18 0.04 270);
+  /* Primary = Vibrant Purple/Blue */
+  --primary: oklch(0.6 0.2 280);
+  --primary-foreground: oklch(1 0 0);
 
-  /* Primary = vivid violet */
-  --primary: oklch(0.55 0.22 285);
-  --primary-foreground: oklch(0.99 0.005 270);
+  /* Secondary = Pink/Sparkle */
+  --secondary: oklch(0.7 0.2 330);
+  --secondary-foreground: oklch(1 0 0);
 
-  --secondary: oklch(0.96 0.02 270 / 0.6);
-  --secondary-foreground: oklch(0.25 0.06 280);
+  --muted: oklch(1 0 0 / 0.1);
+  --muted-foreground: oklch(1 0 0 / 0.6);
 
-  --muted: oklch(0.96 0.015 270 / 0.5);
-  --muted-foreground: oklch(0.45 0.04 270);
+  --accent: oklch(0.7 0.2 330);
+  --accent-foreground: oklch(1 0 0);
 
-  --accent: oklch(0.7 0.18 320);
-  --accent-foreground: oklch(0.99 0 0);
-
-  --destructive: oklch(0.6 0.22 25);
-  --destructive-foreground: oklch(0.99 0 0);
-
-  --border: oklch(1 0 0 / 0.35);
-  --input: oklch(1 0 0 / 0.6);
-  --ring: oklch(0.6 0.2 285);
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(1 0 0 / 0.05);
+  --ring: oklch(0.6 0.2 280);
 
   /* Brand gradients */
-  --gradient-page: linear-gradient(135deg, oklch(0.55 0.18 240) 0%, oklch(0.5 0.22 275) 50%, oklch(0.55 0.2 320) 100%);
-  --gradient-hero: linear-gradient(135deg, oklch(0.7 0.2 245), oklch(0.65 0.24 290), oklch(0.7 0.22 325));
-  --gradient-card: linear-gradient(135deg, oklch(1 0 0 / 0.18), oklch(1 0 0 / 0.06));
-  --gradient-text: linear-gradient(135deg, oklch(0.99 0 0), oklch(0.85 0.12 290));
+  --gradient-page: radial-gradient(circle at top left, oklch(0.25 0.12 280) 0%, oklch(0.15 0.08 300) 50%, oklch(0.12 0.1 340) 100%);
+  --gradient-hero: linear-gradient(135deg, oklch(0.6 0.2 280), oklch(0.7 0.2 330));
+  --gradient-card: linear-gradient(135deg, oklch(1 0 0 / 0.15), oklch(1 0 0 / 0.05));
+  --gradient-text: linear-gradient(135deg, oklch(0.9 0.05 280), oklch(0.8 0.15 330));
 }
 
 @layer base {
